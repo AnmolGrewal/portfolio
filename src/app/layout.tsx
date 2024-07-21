@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
-const inter = Inter({ subsets: ["latin"] });
+config.autoAddCss = false;
+
+const poppins = Poppins({ weight: ["400", "600", "700"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Anmol Grewal - Portfolio",
-  description: "Portfolio website of Anmol Grewal",
+  title: "Anmol Grewal - Software Developer Portfolio",
+  description:
+    "Experienced software developer specializing in React, TypeScript, and more.",
+  keywords: "software developer, React, TypeScript, portfolio",
 };
 
 export default function RootLayout({
@@ -16,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={poppins.className}>{children}</body>
     </html>
   );
 }
