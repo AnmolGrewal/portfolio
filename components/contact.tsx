@@ -67,7 +67,9 @@ export default function Contact() {
           required
           maxLength={5000}
         />
-        <SubmitBtn />
+        <div className="justify-center flex">
+          <SubmitBtn />
+        </div>
       </form>
     </motion.section>
   );
