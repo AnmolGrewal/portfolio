@@ -19,30 +19,40 @@ export default function About() {
     >
       <SectionHeading>About me</SectionHeading>
       <p className="mb-3">
-        After graduating with a degree in{" "}
-        <span className="font-medium">Accounting</span>, I decided to pursue my
-        passion for programming. I enrolled in a coding bootcamp and learned{" "}
-        <span className="font-medium">full-stack web development</span>.{" "}
-        <span className="italic">My favorite part of programming</span> is the
-        problem-solving aspect. I <span className="underline">love</span> the
-        feeling of finally figuring out a solution to a problem. My core stack
-        is{" "}
-        <span className="font-medium">
-          React, Next.js, Node.js, and MongoDB
-        </span>
-        . I am also familiar with TypeScript and Prisma. I am always looking to
-        learn new technologies. I am currently looking for a{" "}
-        <span className="font-medium">full-time position</span> as a software
-        developer.
+        My journey into the world of coding began in the summer of 2008, sparked
+        by a passion for browser games and a desire to enhance my gaming
+        experience. As an elementary school student, I taught myself Visual
+        Basic 6 to create game trainers, allowing me to save progress in games
+        that lacked built-in save features. This early experience ignited a
+        lifelong fascination with programming and problem-solving.
+      </p>
+
+      <p className="mb-3">
+        Fast forward to today, and I've transformed that childhood curiosity
+        into a professional career. I've earned a degree in{" "}
+        <span className="font-medium">Computer Science</span>, honing my skills
+        and deepening my understanding of software development. What I love most
+        about programming is the thrill of solving complex problems - it's like
+        putting together a puzzle where you create the pieces yourself. That
+        moment when everything clicks into place is truly exhilarating.
+      </p>
+
+      <p className="mb-3">
+        I'm constantly seeking to expand my knowledge and stay at the forefront
+        of technology. My passion extends to open-source software development,
+        where I find immense satisfaction in contributing to projects that make
+        people's lives easier, inspire creativity, and bring joy to users
+        worldwide.
       </p>
 
       <p>
-        <span className="italic">When I'm not coding</span>, I enjoy playing
-        video games, watching movies, and playing with my dog. I also enjoy{" "}
-        <span className="font-medium">learning new things</span>. I am currently
-        learning about{" "}
-        <span className="font-medium">history and philosophy</span>. I'm also
-        learning how to play the guitar.
+        Outside of coding, I'm an avid gamer, movie enthusiast, and proud dog
+        owner. I believe in maintaining a healthy work-life balance and
+        nurturing diverse interests. My current goal is to travel the world,
+        experiencing different cultures and drawing inspiration from the beauty
+        and diversity our planet has to offer. This aspiration not only enriches
+        my personal life but also broadens my perspective as a developer,
+        allowing me to create more inclusive and globally-minded solutions.
       </p>
     </motion.section>
   );
