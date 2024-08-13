@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { BsArrowRight, BsLinkedin } from "react-icons/bs";
 import { HiDownload } from "react-icons/hi";
-import { FaGithubSquare } from "react-icons/fa";
+import { FaGithubSquare, FaTiktok } from "react-icons/fa";
 import { useSectionInView } from "@/lib/hooks";
 import { useActiveSectionContext } from "@/context/active-section-context";
 
@@ -64,9 +64,10 @@ export default function Intro() {
       >
         <span className="font-bold">Hello, I'm Anmol.</span> I'm a{" "}
         <span className="font-bold">full-stack developer</span> with{" "}
-        <span className="font-bold">4 years</span> of experience. I enjoy
-        building <span className="italic">sites & apps</span>. My focus is{" "}
-        <span className="underline">React</span>.
+        <span className="font-bold">over 4 years</span> of experience. I enjoy
+        building <span className="italic">sites & apps</span>. I am a{" "}
+        <span className="underline">Software Engineer at TikTok</span>
+        <FaTiktok className="inline-block ml-2" />
       </motion.h1>
 
       <motion.div
