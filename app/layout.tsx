@@ -1,25 +1,21 @@
-import Header from "@/components/header";
-import "./globals.css";
-import { Inter } from "next/font/google";
-import ActiveSectionContextProvider from "@/context/active-section-context";
-import Footer from "@/components/footer";
-import ThemeSwitch from "@/components/theme-switch";
-import ThemeContextProvider from "@/context/theme-context";
-import { Toaster } from "react-hot-toast";
-
-const inter = Inter({ subsets: ["latin"] });
+import Header from '@/components/header';
+import './globals.css';
+import { Inter } from 'next/font/google';
+import ActiveSectionContextProvider from '@/context/active-section-context';
+import Footer from '@/components/footer';
+import ThemeSwitch from '@/components/theme-switch';
+import ThemeContextProvider from '@/context/theme-context';
+import { Toaster } from 'react-hot-toast';
+import { ModalProvider } from '@/context/modal-context';
+import HeaderWrapper from '@/components/HeaderWrapper';
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: "Anmol | Personal Portfolio",
-  description:
-    "Anmol is a full-stack developer with over 4 years of experience.",
+  title: 'Anmol | Personal Portfolio',
+  description: 'Anmol is a full-stack developer with over 4 years of experience.',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="!scroll-smooth">
       <body
@@ -30,12 +26,13 @@ export default function RootLayout({
 
         <ThemeContextProvider>
           <ActiveSectionContextProvider>
-            <Header />
-            {children}
-            <Footer />
-
-            <Toaster position="top-right" />
-            <ThemeSwitch />
+            <ModalProvider>
+              <HeaderWrapper />
+              {children}
+              <Footer />
+              <Toaster position="top-right" />
+              <ThemeSwitch />
+            </ModalProvider>
           </ActiveSectionContextProvider>
         </ThemeContextProvider>
       </body>

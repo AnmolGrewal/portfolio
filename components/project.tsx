@@ -4,10 +4,14 @@ import { useRef, useState } from 'react';
 import { projectsData } from '@/lib/data';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useModal } from '@/context/modal-context';
 
-type ProjectProps = (typeof projectsData)[number];
+type ProjectProps = (typeof projectsData)[number] & {
+  setIsAnyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export default function Project({ title, description, tags, imageUrl }: ProjectProps) {
+  const { setIsAnyModalOpen } = useModal();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -27,7 +31,10 @@ export default function Project({ title, description, tags, imageUrl }: ProjectP
           opacity: opacityProgess,
         }}
         className="group mb-3 sm:mb-8 last:mb-0"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setIsModalOpen(true);
+          setIsAnyModalOpen(true);
+        }}
       >
         <section className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20 cursor-pointer">
           <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[60%] flex flex-col h-full sm:group-even:ml-[18rem]">
@@ -66,13 +73,22 @@ export default function Project({ title, description, tags, imageUrl }: ProjectP
       </motion.div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setIsModalOpen(false)}>
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => {
+            setIsModalOpen(false);
+            setIsAnyModalOpen(false);
+          }}
+        >
           <div
             className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-300 scrollbar-track-gray-200 dark:scrollbar-track-gray-700"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => {
+                setIsModalOpen(false);
+                setIsAnyModalOpen(false);
+              }}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
