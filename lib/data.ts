@@ -15,16 +15,16 @@ export const links = [
     hash: "#about",
   },
   {
+    name: "Experience",
+    hash: "#experience",
+  },
+  {
     name: "Projects",
     hash: "#projects",
   },
   {
     name: "Skills",
     hash: "#skills",
-  },
-  {
-    name: "Experience",
-    hash: "#experience",
   },
   {
     name: "Contact",
@@ -43,7 +43,7 @@ type Experience = {
 export const experiencesData: readonly Experience[] = [
   {
     title: "Bachelor of Science - Computer Science",
-    location: "Simon Fraser University, Vancouver, BC",
+    location: "Simon Fraser University",
     description:
       "Graduated with a BS in Computer Science. Active member of the Computing Science Student Society.",
     icon: React.createElement(LuGraduationCap),
@@ -51,7 +51,7 @@ export const experiencesData: readonly Experience[] = [
   },
   {
     title: "Software Engineer Intern",
-    location: "Salesforce, Vancouver, BC",
+    location: "Salesforce",
     description:
       "Worked on various company and nonprofit codebases, created RESTful API integrations, implemented custom solutions, and collaborated in an Agile environment. Contributed to projects totaling over $100,000 in revenue.",
     icon: React.createElement(FaSalesforce),
@@ -59,7 +59,7 @@ export const experiencesData: readonly Experience[] = [
   },
   {
     title: "Software Engineer",
-    location: "Harris Computer, Remote",
+    location: "Harris Computer",
     description:
       "Replaced legacy systems with React components, implemented Golang backend with GraphQL, authored best practices documentation, and enhanced application performance. Actively participated in design meetings and stakeholder discussions.",
     icon: React.createElement(FaReact),
@@ -67,8 +67,8 @@ export const experiencesData: readonly Experience[] = [
   },
   {
     title: "Software Engineer",
-    location: "TikTok, Vancouver, BC",
-    description: "Inspire creativity and bring joy",
+    location: "TikTok",
+    description: "Inspiring creativity and bringing joy",
     icon: React.createElement(FaTiktok),
     date: "September 2024 - Present",
   },
