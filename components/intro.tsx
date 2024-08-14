@@ -1,32 +1,28 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import React from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { BsArrowRight, BsLinkedin } from "react-icons/bs";
-import { HiDownload } from "react-icons/hi";
-import { FaGithubSquare, FaTiktok } from "react-icons/fa";
-import { useSectionInView } from "@/lib/hooks";
-import { useActiveSectionContext } from "@/context/active-section-context";
+import Image from 'next/image';
+import React from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { BsArrowRight, BsLinkedin } from 'react-icons/bs';
+import { HiDownload } from 'react-icons/hi';
+import { FaGithubSquare, FaTiktok } from 'react-icons/fa';
+import { useSectionInView } from '@/lib/hooks';
+import { useActiveSectionContext } from '@/context/active-section-context';
 
 export default function Intro() {
-  const { ref } = useSectionInView("Home", 0.5);
+  const { ref } = useSectionInView('Home', 0.5);
   const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext();
 
   return (
-    <section
-      ref={ref}
-      id="home"
-      className="mb-28 max-w-[50rem] text-center sm:mb-0 scroll-mt-[100rem]"
-    >
+    <section ref={ref} id="home" className="mb-28 max-w-[50rem] text-center sm:mb-0 scroll-mt-[100rem]">
       <div className="flex items-center justify-center">
         <div className="relative">
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
-              type: "tween",
+              type: 'tween',
               duration: 0.2,
             }}
           >
@@ -46,7 +42,7 @@ export default function Intro() {
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
-              type: "spring",
+              type: 'spring',
               stiffness: 125,
               delay: 0.1,
               duration: 0.7,
@@ -62,10 +58,8 @@ export default function Intro() {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <span className="font-bold">Hello, I'm Anmol.</span> I'm a{" "}
-        <span className="font-bold">full-stack developer</span> with{" "}
-        <span className="font-bold">over 4 years</span> of experience. I enjoy
-        building <span className="italic">sites & apps</span>. I am a{" "}
+        <span className="font-bold">Hello, I'm Anmol.</span> I'm a <span className="font-bold">full-stack developer</span> with{' '}
+        <span className="font-bold">over 4 years</span> of experience. I enjoy building <span className="italic">sites & apps</span>. I am a{' '}
         <span className="underline">Software Engineer at TikTok</span>
         <FaTiktok className="inline-block ml-2" />
       </motion.h1>
@@ -82,21 +76,19 @@ export default function Intro() {
           href="#contact"
           className="group bg-gray-900 text-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"
           onClick={() => {
-            setActiveSection("Contact");
+            setActiveSection('Contact');
             setTimeOfLastClick(Date.now());
           }}
         >
-          Contact me here{" "}
-          <BsArrowRight className="opacity-70 group-hover:translate-x-1 transition" />
+          Contact me here <BsArrowRight className="opacity-70 group-hover:translate-x-1 transition" />
         </Link>
 
         <a
-          className="group bg-white px-7 py-3 flex items-center gap-2 rounded-full outline-none focus:scale-110 hover:scale-110 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10"
+          className="group bg-white px-7 py-3 flex items-center gap-2 rounded-full outline-none hover:scale-110 active:scale-105 transition cursor-pointer borderBlack dark:bg-white/10"
           href="/Anmol-Grewal-Resume.pdf"
           download
         >
-          Download Resume{" "}
-          <HiDownload className="opacity-60 group-hover:translate-y-1 transition" />
+          Download Resume <HiDownload className="opacity-60 group-hover:translate-y-1 group-active:translate-y-0 transition" />
         </a>
 
         <a
