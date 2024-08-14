@@ -13,3 +13,22 @@ html.dark {
 .borderBlack {
   @apply border border-black/10;
 }
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--line-color);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 4px;
+  }
+
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #999;
+  }
+}
