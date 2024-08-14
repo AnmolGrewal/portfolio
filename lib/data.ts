@@ -1,6 +1,5 @@
 import React from "react";
-import { CgWorkAlt } from "react-icons/cg";
-import { FaReact } from "react-icons/fa";
+import { FaReact, FaSalesforce, FaTiktok } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
 import corpcommentImg from "@/public/corpcomment.png";
 import rmtdevImg from "@/public/rmtdev.png";
@@ -33,32 +32,49 @@ export const links = [
   },
 ] as const;
 
-export const experiencesData = [
+type Experience = {
+  title: string;
+  location: string;
+  description: string;
+  icon: React.ReactNode;
+  date: string;
+};
+
+export const experiencesData: readonly Experience[] = [
   {
-    title: "Graduated bootcamp",
-    location: "Miami, FL",
+    title: "Bachelor of Science - Computer Science",
+    location: "Simon Fraser University, Vancouver, BC",
     description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
+      "Graduated with a BS in Computer Science. Active member of the Computing Science Student Society.",
     icon: React.createElement(LuGraduationCap),
-    date: "2019",
+    date: "2017 - 2020",
   },
   {
-    title: "Front-End Developer",
-    location: "Orlando, FL",
+    title: "Software Engineer Intern",
+    location: "Salesforce, Vancouver, BC",
     description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
-    icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
+      "Worked on various company and nonprofit codebases, created RESTful API integrations, implemented custom solutions, and collaborated in an Agile environment. Contributed to projects totaling over $100,000 in revenue.",
+    icon: React.createElement(FaSalesforce),
+    date: "Jan 2019 - Aug 2019",
   },
   {
-    title: "Full-Stack Developer",
-    location: "Houston, TX",
+    title: "Software Engineer",
+    location: "Harris Computer, Remote",
     description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
+      "Replaced legacy systems with React components, implemented Golang backend with GraphQL, authored best practices documentation, and enhanced application performance. Actively participated in design meetings and stakeholder discussions.",
     icon: React.createElement(FaReact),
-    date: "2021 - present",
+    date: "Mar 2021 - Aug 2024",
   },
-] as const;
+  {
+    title: "Software Engineer",
+    location: "TikTok, Vancouver, BC",
+    description: "Inspire creativity and bring joy",
+    icon: React.createElement(FaTiktok),
+    date: "September 2024 - Present",
+  },
+];
+
+export const reversedExperiencesData = [...experiencesData].reverse();
 
 export const projectsData = [
   {
