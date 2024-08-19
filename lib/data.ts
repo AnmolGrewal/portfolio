@@ -3,6 +3,7 @@ import { FaReact, FaSalesforce, FaTiktok } from 'react-icons/fa';
 import { LuGraduationCap } from 'react-icons/lu';
 import speedyNexus from '@/public/speedynexus.png';
 import lostMokokos from '@/public/lostmokokos.png';
+import portfolio from '@/public/portfolio.png';
 
 export const links = [
   {
@@ -76,18 +77,31 @@ export const reversedExperiencesData = [...experiencesData].reverse();
 
 export const projectsData = [
   {
-    title: 'NEXUS Interview Alert System',
-    description:
-      'Displays currently available or newly released dates for NEXUS Interviews. Reducing wait times by up to ~90% by allowing users to secure cancelled or postponed interviews quickly.',
-    tags: ['React', 'Next.js', 'Tailwind', 'MUI', 'JSON'],
-    imageUrl: speedyNexus,
-  },
-  {
     title: 'Amazon Game Studios – Lost Ark Community Website',
     description:
       'Created a community website for Amazon Games published game Lost Ark, over 1 million page views and 10,000 users monthly. Utilizing React, Next.js and front-end libraries such as MUI, Fontawesome Icons to create tools for users to enhance their journey from scratch supporting Mobile and Desktop Users.',
     tags: ['React', 'Next.js', 'Tailwind', 'MUI', 'Single Page Application'],
     imageUrl: lostMokokos,
+    link: 'https://lostmokokos.com/',
+    sourceCodeLink: 'https://github.com/AnmolGrewal/lostmokokos',
+  },
+  {
+    title: 'NEXUS Interview Alert System',
+    description:
+      'Displays currently available or newly released dates for NEXUS Interviews. Reducing wait times by up to ~90% by allowing users to secure cancelled or postponed interviews quickly.',
+    tags: ['React', 'Next.js', 'Tailwind', 'MUI', 'JSON'],
+    imageUrl: speedyNexus,
+    link: 'https://speedynexus.com/',
+    sourceCodeLink: 'https://github.com/AnmolGrewal/speedynexus',
+  },
+  {
+    title: 'Portfolio Website',
+    description:
+      'Website created to display my projects and skills. To get in touch with me and have easy access to view my projects and source code.',
+    tags: ['React', 'Resend', 'Tailwind', 'Typescript', 'Vercel'],
+    imageUrl: portfolio,
+    link: 'https://anmolgrewal.com/',
+    sourceCodeLink: 'https://github.com/AnmolGrewal/portfolio',
   },
 ] as const;
 

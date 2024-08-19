@@ -5,12 +5,14 @@ import { projectsData } from '@/lib/data';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useModal } from '@/context/modal-context';
+import { FaGithub } from 'react-icons/fa';
+import { TbWorldWww } from 'react-icons/tb';
 
 type ProjectProps = (typeof projectsData)[number] & {
   setIsAnyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Project({ title, description, tags, imageUrl }: ProjectProps) {
+export default function Project({ title, description, tags, imageUrl, link, sourceCodeLink }: ProjectProps) {
   const { setIsAnyModalOpen } = useModal();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -81,7 +83,7 @@ export default function Project({ title, description, tags, imageUrl }: ProjectP
           }}
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-300 scrollbar-track-gray-200 dark:scrollbar-track-gray-700"
+            className="flex flex-col bg-white dark:bg-gray-800 rounded-lg p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-300 scrollbar-track-gray-200 dark:scrollbar-track-gray-700"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -96,8 +98,37 @@ export default function Project({ title, description, tags, imageUrl }: ProjectP
               </svg>
             </button>
             <Image src={imageUrl} alt={title} width={800} height={450} className="w-full h-auto rounded-lg mb-4" />
-            <h2 className="text-2xl font-bold mb-4">{title}</h2>
-            <p className="text-gray-700 dark:text-gray-300">{description}</p>
+            <h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">{description}</p>
+            {link && (
+              <div className="text-center mt-4 flex justify-center space-x-10">
+                <div className="transition-transform hover:scale-125">
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-500 hover:text-gray-700 text-2xl flex items-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <TbWorldWww size={24} className="mr-2" />
+                    View Project
+                  </a>
+                </div>
+
+                <div className="transition-transform hover:scale-125">
+                  <a
+                    href={sourceCodeLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-500 hover:text-gray-700 text-2xl flex items-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <FaGithub size={24} className="mr-2" />
+                    View Code
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
