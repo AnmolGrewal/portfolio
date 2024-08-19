@@ -97,7 +97,7 @@ export const projectsData = [
   {
     title: 'Portfolio Website',
     description:
-      'Website created to display my projects and skills. To get in touch with me and have easy access to view my projects and source code.',
+      'Interactive portfolio showcasing my projects, skills, and professional journey. Designed for seamless navigation, allowing visitors to explore my work, view source code, and easily connect with me.',
     tags: ['React', 'Resend', 'Tailwind', 'Typescript', 'Vercel'],
     imageUrl: portfolio,
     link: 'https://anmolgrewal.com/',
