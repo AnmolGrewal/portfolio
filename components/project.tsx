@@ -10,9 +10,10 @@ import { TbWorldWww } from 'react-icons/tb';
 
 type ProjectProps = (typeof projectsData)[number] & {
   setIsAnyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  imageUrl2?: string;
 };
 
-export default function Project({ title, description, tags, imageUrl, link, sourceCodeLink }: ProjectProps) {
+export default function Project({ title, description, tags, imageUrl, link, sourceCodeLink, imageUrl2 }: ProjectProps) {
   const { setIsAnyModalOpen } = useModal();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -97,8 +98,11 @@ export default function Project({ title, description, tags, imageUrl, link, sour
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <Image src={imageUrl} alt={title} width={800} height={450} className="w-full h-auto rounded-lg mb-4" />
             <h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
+            {imageUrl2 && (
+              <Image src={imageUrl2} alt={`${title} additional image`} width={800} height={450} className="w-full h-auto rounded-lg mb-4" />
+            )}
+            <Image src={imageUrl} alt={title} width={800} height={450} className="w-full h-auto rounded-lg mb-4" />
             <p className="text-gray-700 dark:text-gray-300 mb-2">{description}</p>
             {link && (
               <div className="text-center mt-4 flex justify-center space-x-10">

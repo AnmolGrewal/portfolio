@@ -3,6 +3,8 @@ import { FaReact, FaSalesforce, FaTiktok } from 'react-icons/fa';
 import { LuGraduationCap } from 'react-icons/lu';
 import speedyNexus from '@/public/speedynexus.png';
 import lostMokokos from '@/public/lostmokokos.png';
+import speedyNexusTraffic from '@/public/speedynexus-traffic.png';
+import lostMokokosTraffic from '@/public/lostmokokos-traffic.png';
 import portfolio from '@/public/portfolio.png';
 
 export const links = [
@@ -82,6 +84,7 @@ export const projectsData = [
       'Created a community website for Amazon Games published game Lost Ark, over 1 million page views and 10,000 users monthly. Utilizing React, Next.js and front-end libraries such as MUI, Fontawesome Icons to create tools for users to enhance their journey from scratch supporting Mobile and Desktop Users.',
     tags: ['React', 'Next.js', 'Tailwind', 'MUI', 'Single Page Application'],
     imageUrl: lostMokokos,
+    imageUrl2: lostMokokosTraffic,
     link: 'https://lostmokokos.com/',
     sourceCodeLink: 'https://github.com/AnmolGrewal/lostmokokos',
   },
@@ -91,6 +94,7 @@ export const projectsData = [
       'Displays currently available or newly released dates for NEXUS Interviews. Reducing wait times by up to ~90% by allowing users to secure cancelled or postponed interviews quickly.',
     tags: ['React', 'Next.js', 'Tailwind', 'MUI', 'JSON'],
     imageUrl: speedyNexus,
+    imageUrl2: speedyNexusTraffic,
     link: 'https://speedynexus.com/',
     sourceCodeLink: 'https://github.com/AnmolGrewal/speedynexus',
   },
