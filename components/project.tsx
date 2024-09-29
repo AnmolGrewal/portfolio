@@ -7,10 +7,12 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useModal } from '@/context/modal-context';
 import { FaGithub } from 'react-icons/fa';
 import { TbWorldWww } from 'react-icons/tb';
+import { StaticImageData } from 'next/image';
 
 type ProjectProps = (typeof projectsData)[number] & {
   setIsAnyModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  imageUrl2?: string;
+  imageUrl: string | StaticImageData;
+  imageUrl2?: string | StaticImageData;
 };
 
 export default function Project({ title, description, tags, imageUrl, link, sourceCodeLink, imageUrl2 }: ProjectProps) {
@@ -60,7 +62,7 @@ export default function Project({ title, description, tags, imageUrl, link, sour
             alt="Project I worked on"
             quality={95}
             className="absolute hidden sm:block top-8 -right-40 w-[28.25rem] rounded-t-lg shadow-2xl
-            transition 
+            transition
             group-hover:scale-[1.04]
             group-hover:-translate-x-3
             group-hover:translate-y-3
@@ -99,9 +101,11 @@ export default function Project({ title, description, tags, imageUrl, link, sour
               </svg>
             </button>
             <h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
+
             {imageUrl2 && (
               <Image src={imageUrl2} alt={`${title} additional image`} width={800} height={450} className="w-full h-auto rounded-lg mb-4" />
             )}
+
             <Image src={imageUrl} alt={title} width={800} height={450} className="w-full h-auto rounded-lg mb-4" />
             <p className="text-gray-700 dark:text-gray-300 mb-2">{description}</p>
             {link && (
