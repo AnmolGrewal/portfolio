@@ -12,6 +12,21 @@ export default function QRCodeGenerator() {
     'bg-orange-100 dark:bg-orange-900',
   ];
 
+  type Profile = { baseUrl: string; params: { key: string; value: string }[] };
+  const [profiles, setProfiles] = useState<Profile[]>(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('qr-profiles') || '[{"baseUrl": "", "params": []}]');
+    }
+    return [{ baseUrl: '', params: [] }];
+  });
+
+  const [currentProfile, setCurrentProfile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return Number(localStorage.getItem('qr-current-profile') || '0');
+    }
+    return 0;
+  });
+
   const [baseUrl, setBaseUrl] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('qr-baseUrl') || '';
@@ -27,12 +42,26 @@ export default function QRCodeGenerator() {
   });
 
   useEffect(() => {
+    const updatedProfiles = [...profiles];
+    updatedProfiles[currentProfile] = { baseUrl, params };
+    setProfiles(updatedProfiles);
+  }, [baseUrl, params]);
+
+  useEffect(() => {
     localStorage.setItem('qr-baseUrl', baseUrl);
   }, [baseUrl]);
 
   useEffect(() => {
     localStorage.setItem('qr-params', JSON.stringify(params));
   }, [params]);
+
+  useEffect(() => {
+    localStorage.setItem('qr-profiles', JSON.stringify(profiles));
+  }, [profiles]);
+
+  useEffect(() => {
+    localStorage.setItem('qr-current-profile', currentProfile.toString());
+  }, [currentProfile]);
 
   const addParam = () => {
     setParams([...params, { key: '', value: '' }]);
@@ -73,6 +102,59 @@ export default function QRCodeGenerator() {
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-4xl font-bold mb-8">QR Code Generator</h1>
+      <div className="flex gap-2 mb-4 items-center w-96">
+        <select
+          value={currentProfile}
+          onChange={(e) => {
+            const index = Number(e.target.value);
+            if (index === profiles.length) {
+              setProfiles([...profiles, { baseUrl: '', params: [] }]);
+              setCurrentProfile(profiles.length);
+              setBaseUrl('');
+              setParams([]);
+            } else {
+              setCurrentProfile(index);
+              setBaseUrl(profiles[index].baseUrl);
+              setParams(profiles[index].params);
+            }
+          }}
+          className="p-2 border rounded dark:bg-gray-800 flex-grow"
+        >
+          {profiles.map((profile, index) => (
+            <option key={index} value={index}>
+              {profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : '')}
+            </option>
+          ))}
+          <option value={profiles.length}>Add New Profile</option>
+        </select>
+
+        <button
+          onClick={() => {
+            if (profiles.length > 1) {
+              const newProfiles = profiles.filter((_, i) => i !== currentProfile);
+              setProfiles(newProfiles);
+              setCurrentProfile(0);
+            }
+          }}
+          className="px-3 py-2 bg-red-500 text-white rounded"
+        >
+          X
+        </button>
+
+        <button
+          onClick={() => {
+            const updatedProfiles = [...profiles];
+            updatedProfiles[currentProfile] = { baseUrl: '', params: [] };
+            setProfiles(updatedProfiles);
+            setBaseUrl('');
+            setParams([]);
+          }}
+          className="px-3 py-2 bg-blue-500 text-white rounded"
+        >
+          ↺
+        </button>
+      </div>
+
       <textarea
         placeholder="Base URL"
         value={baseUrl}
