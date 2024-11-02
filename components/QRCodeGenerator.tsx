@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import Select from 'react-select';
 
 export default function QRCodeGenerator() {
   const colors = [
@@ -99,35 +100,45 @@ export default function QRCodeGenerator() {
     }
   };
 
+  const exportProfiles = () => {
+    const dataStr = JSON.stringify(profiles);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+    const exportFileDefaultName = 'qr-profiles.json';
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+  };
+
+  const importProfiles = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(event.target.files![0], 'UTF-8');
+    fileReader.onload = (e) => {
+      const importedProfiles = JSON.parse(e.target?.result as string);
+      setProfiles([...profiles, ...importedProfiles]);
+    };
+  };
+
+  const selectOptions = [
+    ...profiles.map((profile, index) => ({
+      value: index,
+      label: profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : ''),
+    })),
+    { value: profiles.length, label: 'Add New Profile' },
+  ];
+
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-4xl font-bold mb-8">QR Code Generator</h1>
-      <div className="flex gap-2 mb-4 items-center w-96">
-        <select
-          value={currentProfile}
-          onChange={(e) => {
-            const index = Number(e.target.value);
-            if (index === profiles.length) {
-              setProfiles([...profiles, { baseUrl: '', params: [] }]);
-              setCurrentProfile(profiles.length);
-              setBaseUrl('');
-              setParams([]);
-            } else {
-              setCurrentProfile(index);
-              setBaseUrl(profiles[index].baseUrl);
-              setParams(profiles[index].params);
-            }
-          }}
-          className="p-2 border rounded dark:bg-gray-800 flex-grow"
-        >
-          {profiles.map((profile, index) => (
-            <option key={index} value={index}>
-              {profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : '')}
-            </option>
-          ))}
-          <option value={profiles.length}>Add New Profile</option>
-        </select>
 
+      <div className="flex gap-2">
+        <button onClick={exportProfiles} className="px-3 py-2 bg-green-500 text-white rounded">
+          Export
+        </button>
+        <label className="px-3 py-2 bg-yellow-500 text-white rounded cursor-pointer">
+          Import
+          <input type="file" accept=".json" className="hidden" onChange={importProfiles} />
+        </label>
         <button
           onClick={() => {
             if (profiles.length > 1) {
@@ -153,6 +164,48 @@ export default function QRCodeGenerator() {
         >
           ↺
         </button>
+      </div>
+
+      <div className="flex gap-2 mb-4 items-center max-w-96 w-96">
+        <Select
+          value={selectOptions.find((option) => option.value === currentProfile)}
+          onChange={(option) => {
+            const index = option?.value || 0;
+            if (index === profiles.length) {
+              setProfiles([...profiles, { baseUrl: '', params: [] }]);
+              setCurrentProfile(profiles.length);
+              setBaseUrl('');
+              setParams([]);
+            } else {
+              setCurrentProfile(index);
+              setBaseUrl(profiles[index].baseUrl);
+              setParams(profiles[index].params);
+            }
+          }}
+          options={selectOptions}
+          className="flex-grow"
+          classNamePrefix="react-select"
+          theme={(theme) => ({
+            ...theme,
+            colors: {
+              ...theme.colors,
+              neutral0: 'rgb(31 41 55)', // dark:bg-gray-800
+              neutral80: 'white', // text color
+              primary25: 'rgb(55 65 81)', // hover state
+              primary: 'rgb(59 130 246)', // selected state
+            },
+          })}
+          styles={{
+            control: (baseStyles) => ({
+              ...baseStyles,
+              minHeight: '42px',
+            }),
+            option: (baseStyles) => ({
+              ...baseStyles,
+              height: '42px',
+            }),
+          }}
+        />
       </div>
 
       <textarea
