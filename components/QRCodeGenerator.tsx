@@ -57,13 +57,26 @@ export default function QRCodeGenerator() {
     return `${baseUrl}${queryParams}`;
   };
 
+  const parseUrl = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      const searchParams = Array.from(urlObj.searchParams.entries());
+      const sortedParams = searchParams.sort((a, b) => a[0].localeCompare(b[0]));
+
+      setBaseUrl(urlObj.origin + urlObj.pathname);
+      setParams(sortedParams.map(([key, value]) => ({ key, value })));
+    } catch (e) {
+      setBaseUrl(url);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-4xl font-bold mb-8">QR Code Generator</h1>
       <textarea
         placeholder="Base URL"
         value={baseUrl}
-        onChange={(e) => setBaseUrl(e.target.value)}
+        onChange={(e) => parseUrl(e.target.value)}
         className="p-2 border rounded dark:bg-gray-800 w-96 h-32 resize-none"
       />
 
