@@ -7,6 +7,7 @@ import 'react-vertical-timeline-component/style.min.css';
 import { reversedExperiencesData } from '@/lib/data';
 import { useSectionInView } from '@/lib/hooks';
 import { useTheme } from '@/context/theme-context';
+import Link from 'next/link';
 
 export default function Experience() {
   const { ref } = useSectionInView('Experience', 0.4);
@@ -38,7 +39,15 @@ export default function Experience() {
             >
               <h3 className="font-semibold capitalize">{item.title}</h3>
               <p className="font-normal !mt-0">{item.location}</p>
-              <p className="!mt-1 !font-normal text-gray-700 dark:text-white/75">{item.description}</p>
+              <p className="!mt-1 !font-normal text-gray-700 dark:text-white/75">
+                {item.url ? (
+                  <Link href={item.url}>
+                    <span className="underline cursor-pointer">{item.description}</span>
+                  </Link>
+                ) : (
+                  item.description
+                )}
+              </p>
             </VerticalTimelineElement>
           </React.Fragment>
         ))}

@@ -38,6 +38,7 @@ type Experience = {
   title: string;
   location: string;
   description: string;
+  url?: string;
   icon: React.ReactNode;
   date: string;
 };
@@ -69,7 +70,8 @@ export const experiencesData: readonly Experience[] = [
   {
     title: 'Software Engineer',
     location: 'TikTok',
-    description: 'Inspiring creativity and bringing joy',
+    description: 'Keeping Users safe globally in every region TikTok is available! (Click Me For More Info)',
+    url: '/uselections2024',
     icon: React.createElement(FaTiktok),
     date: 'September 2024 - Present',
   },
@@ -116,6 +118,7 @@ export const skillsData = [
   'TypeScript',
   'React',
   'Next.js',
+  'Go',
   'Java',
   'Python',
   'Data Structures and Algorithms',
@@ -129,4 +132,5 @@ export const skillsData = [
   'Software Development Life Cycle',
   'MySQL',
   'Salesforce',
+  'CI/CD Pipelines',
 ] as const;
