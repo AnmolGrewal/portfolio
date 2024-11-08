@@ -6,7 +6,7 @@ export default function USElections2024() {
     <section className="relative flex min-h-screen flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-16">
       <Link href="/" className="absolute top-8 left-8 flex items-center text-lg hover:text-purple-500 transition-colors">
         <span className="mr-2">←</span>
-        Back
+        Home
       </Link>
 
       <h1 className="mb-2 text-5xl font-bold text-center">US Elections 2024</h1>
@@ -14,7 +14,7 @@ export default function USElections2024() {
 
       {/* Apple Front Page Section */}
       <div className="w-full max-w-6xl mb-16">
-        <h3 className="text-2xl font-semibold mb-6 text-center">Apple Front Page November 6th Election Day</h3>
+        <h3 className="text-2xl font-semibold mb-6 text-center">Apple Front Page November 5th Election Day</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative w-full h-[700px]">
             <Image
@@ -44,7 +44,7 @@ export default function USElections2024() {
             <div className="relative w-full h-[300px] transition-transform hover:scale-105">
               <Image src="/elections-article1.png" alt="Elections Article" fill style={{ objectFit: 'cover' }} className="rounded-lg" />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
-                <p className="text-lg">Elections 2024 Article</p>
+                <p className="text-lg">New York Times Article</p>
               </div>
             </div>
           </Link>
@@ -58,7 +58,7 @@ export default function USElections2024() {
                 className="rounded-lg"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
-                <p className="text-lg">TikTok Election Integrity</p>
+                <p className="text-lg">TikTok Article</p>
               </div>
             </div>
           </Link>
@@ -72,7 +72,7 @@ export default function USElections2024() {
             <div className="relative w-full h-[300px] transition-transform hover:scale-105">
               <Image src="/tiktok-elections2.png" alt="TikTok Election Hub" fill style={{ objectFit: 'cover' }} className="rounded-lg" />
               <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4 rounded-b-lg">
-                <p className="text-lg">TikTok Election Hub</p>
+                <p className="text-lg">TikTok Article #2</p>
               </div>
             </div>
           </Link>
