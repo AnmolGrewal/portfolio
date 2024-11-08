@@ -10,7 +10,7 @@ export default function USElections2024() {
       </Link>
 
       <h1 className="mb-2 text-5xl font-bold text-center">US Elections 2024</h1>
-      <h2 className="mb-12 text-2xl text-center">Lead Developer US Elections Hub 2024 for Election Day @ TikTok</h2>
+      <h2 className="mb-12 text-2xl text-center">Lead Developer for US Elections Hub 2024 for Election Day @ TikTok</h2>
 
       {/* Apple Front Page Section */}
       <div className="w-full max-w-6xl mb-16">
