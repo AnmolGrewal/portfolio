@@ -3,7 +3,12 @@ import Link from 'next/link';
 
 export default function USElections2024() {
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-16">
+    <section className="relative flex min-h-screen flex-col items-center justify-center px-4 sm:px-8 md:px-16 py-16">
+      <Link href="/" className="absolute top-8 left-8 flex items-center text-lg hover:text-purple-500 transition-colors">
+        <span className="mr-2">←</span>
+        Back
+      </Link>
+
       <h1 className="mb-2 text-5xl font-bold text-center">US Elections 2024</h1>
       <h2 className="mb-12 text-2xl text-center">Lead Developer US Elections Hub 2024 @ TikTok</h2>
 
