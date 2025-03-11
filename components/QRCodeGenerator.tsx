@@ -122,9 +122,13 @@ export default function QRCodeGenerator() {
   const selectOptions = [
     ...profiles.map((profile, index) => ({
       value: index,
-      label: profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : ''),
+      label: profile.baseUrl
+        ? profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : '')
+        : profile.params.length
+        ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&')
+        : `[Empty Profile ${index + 1}]`,
     })),
-    { value: profiles.length, label: 'Add New Profile' },
+    { value: profiles.length, label: '+ Add New Profile' },
   ];
 
   return (
@@ -200,10 +204,43 @@ export default function QRCodeGenerator() {
               ...baseStyles,
               minHeight: '42px',
             }),
-            option: (baseStyles) => ({
+            option: (baseStyles, state) => ({
               ...baseStyles,
-              height: '42px',
+              height: 'auto',
+              padding: '8px 12px',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              // Add special styling for the "Add New Profile" option
+              ...(state.data.value === profiles.length && {
+                fontWeight: 'bold',
+                textAlign: 'center',
+                color: 'rgb(59 130 246)',
+              }),
             }),
+            menu: (baseStyles) => ({
+              ...baseStyles,
+              zIndex: 10,
+              maxWidth: '96rem',
+              width: 'max-content',
+              minWidth: '100%',
+            }),
+            menuList: (baseStyles) => ({
+              ...baseStyles,
+              maxHeight: '200px',
+            }),
+            singleValue: (baseStyles) => ({
+              ...baseStyles,
+              maxWidth: '100%',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }),
+          }}
+          formatOptionLabel={(option) => {
+            // Truncate long URLs for display
+            const label = option.label;
+            const maxLength = 50;
+            return label.length > maxLength ? `${label.substring(0, maxLength)}...` : label;
           }}
         />
       </div>
@@ -241,7 +278,7 @@ export default function QRCodeGenerator() {
         Add Parameter
       </button>
 
-      {baseUrl && (
+      {baseUrl && baseUrl.trim() !== '' && (
         <div className="mt-4 flex flex-col items-center">
           <QRCodeSVG value={generateUrl()} size={256} />
           <p className="mt-2 text-sm break-all max-w-[600px] text-center">
