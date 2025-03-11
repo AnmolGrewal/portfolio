@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import Select from 'react-select';
 
@@ -41,6 +41,9 @@ export default function QRCodeGenerator() {
     }
     return [];
   });
+
+  const [showToast, setShowToast] = useState(false);
+  const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const updatedProfiles = [...profiles];
@@ -87,15 +90,38 @@ export default function QRCodeGenerator() {
     return `${baseUrl}${queryParams}`;
   };
 
+  const handleBaseUrlChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newUrl = e.target.value;
+
+    // Check if the URL contains query parameters
+    if (newUrl.includes('?')) {
+      // If it has query parameters, use parseUrl to extract them
+      parseUrl(newUrl);
+    } else {
+      // If it's just a base URL without parameters, set it directly
+      setBaseUrl(newUrl);
+    }
+  };
+
   const parseUrl = (url: string) => {
     try {
       const urlObj = new URL(url);
-      const searchParams = Array.from(urlObj.searchParams.entries());
-      const sortedParams = searchParams.sort((a, b) => a[0].localeCompare(b[0]));
+      const newBaseUrl = urlObj.origin + urlObj.pathname;
 
-      setBaseUrl(urlObj.origin + urlObj.pathname);
-      setParams(sortedParams.map(([key, value]) => ({ key, value })));
+      // Get parameters from the URL
+      const urlParams = Array.from(urlObj.searchParams.entries());
+
+      if (urlParams.length > 0) {
+        // If the URL has parameters, use those
+        const sortedParams = urlParams.sort((a, b) => a[0].localeCompare(b[0]));
+        setBaseUrl(newBaseUrl);
+        setParams(sortedParams.map(([key, value]) => ({ key, value })));
+      } else {
+        // If the URL doesn't have parameters, just set the base URL
+        setBaseUrl(newBaseUrl);
+      }
     } catch (e) {
+      // If it's not a valid URL, just set the raw input as the base URL
       setBaseUrl(url);
     }
   };
@@ -130,6 +156,34 @@ export default function QRCodeGenerator() {
     })),
     { value: profiles.length, label: '+ Add New Profile' },
   ];
+
+  const copyToClipboard = () => {
+    const url = generateUrl();
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        // Show toast notification
+        if (toastTimeoutRef.current) {
+          clearTimeout(toastTimeoutRef.current);
+        }
+        setShowToast(true);
+        toastTimeoutRef.current = setTimeout(() => {
+          setShowToast(false);
+        }, 2000); // Hide after 2 seconds
+      })
+      .catch((err) => {
+        console.error('Failed to copy URL: ', err);
+      });
+  };
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -248,7 +302,7 @@ export default function QRCodeGenerator() {
       <textarea
         placeholder="Base URL"
         value={baseUrl}
-        onChange={(e) => parseUrl(e.target.value)}
+        onChange={handleBaseUrlChange}
         className="p-2 border rounded dark:bg-gray-800 w-96 h-32 resize-none"
       />
 
@@ -281,17 +335,40 @@ export default function QRCodeGenerator() {
       {baseUrl && baseUrl.trim() !== '' && (
         <div className="mt-4 flex flex-col items-center">
           <QRCodeSVG value={generateUrl()} size={256} />
-          <p className="mt-2 text-sm break-all max-w-[600px] text-center">
-            {baseUrl}
-            {params
-              .filter((p) => p.key && p.value)
-              .map((p, index) => (
-                <span key={index} className={`${colors[index % colors.length]} px-1 rounded mx-1`}>
-                  {index === 0 ? '?' : '&'}
-                  {p.key}={p.value}
-                </span>
-              ))}
-          </p>
+          <div className="mt-2 flex items-center">
+            <p className="text-sm break-all max-w-[600px] text-center">
+              {baseUrl}
+              {params
+                .filter((p) => p.key && p.value)
+                .map((p, index) => (
+                  <span key={index} className={`${colors[index % colors.length]} px-1 rounded mx-1`}>
+                    {index === 0 ? '?' : '&'}
+                    {p.key}={p.value}
+                  </span>
+                ))}
+            </p>
+            <button
+              onClick={copyToClipboard}
+              className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              title="Copy URL to clipboard"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Toast notification */}
+      {showToast && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300">
+          Copied to clipboard!
         </div>
       )}
     </div>
