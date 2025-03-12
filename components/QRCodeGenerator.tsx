@@ -13,12 +13,23 @@ export default function QRCodeGenerator() {
     'bg-orange-100 dark:bg-orange-900',
   ];
 
-  type Profile = { baseUrl: string; params: { key: string; value: string }[] };
+  type Profile = {
+    title: string;
+    baseUrl: string;
+    params: { key: string; value: string }[];
+  };
+
   const [profiles, setProfiles] = useState<Profile[]>(() => {
     if (typeof window !== 'undefined') {
-      return JSON.parse(localStorage.getItem('qr-profiles') || '[{"baseUrl": "", "params": []}]');
+      const savedProfiles = JSON.parse(localStorage.getItem('qr-profiles') || '[{"title":"","baseUrl": "", "params": []}]');
+      // Add title field to any existing profiles that don't have it
+      return savedProfiles.map((profile: any) => ({
+        title: profile.title || '',
+        baseUrl: profile.baseUrl,
+        params: profile.params,
+      }));
     }
-    return [{ baseUrl: '', params: [] }];
+    return [{ title: '', baseUrl: '', params: [] }];
   });
 
   const [currentProfile, setCurrentProfile] = useState(() => {
@@ -26,6 +37,13 @@ export default function QRCodeGenerator() {
       return Number(localStorage.getItem('qr-current-profile') || '0');
     }
     return 0;
+  });
+
+  const [title, setTitle] = useState(() => {
+    if (typeof window !== 'undefined' && profiles[currentProfile]) {
+      return profiles[currentProfile].title || '';
+    }
+    return '';
   });
 
   const [baseUrl, setBaseUrl] = useState(() => {
@@ -47,9 +65,9 @@ export default function QRCodeGenerator() {
 
   useEffect(() => {
     const updatedProfiles = [...profiles];
-    updatedProfiles[currentProfile] = { baseUrl, params };
+    updatedProfiles[currentProfile] = { title, baseUrl, params };
     setProfiles(updatedProfiles);
-  }, [baseUrl, params]);
+  }, [title, baseUrl, params]);
 
   useEffect(() => {
     localStorage.setItem('qr-baseUrl', baseUrl);
@@ -148,13 +166,20 @@ export default function QRCodeGenerator() {
   const selectOptions = [
     ...profiles.map((profile, index) => ({
       value: index,
-      label: profile.baseUrl
+      label:
+        profile.title ||
+        (profile.baseUrl
+          ? profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : '')
+          : profile.params.length
+          ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&')
+          : `[Empty Profile ${index + 1}]`),
+      url: profile.baseUrl
         ? profile.baseUrl + (profile.params.length ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&') : '')
         : profile.params.length
         ? '?' + profile.params.map((p) => `${p.key}=${p.value}`).join('&')
-        : `[Empty Profile ${index + 1}]`,
+        : '',
     })),
-    { value: profiles.length, label: '+ Add New Profile' },
+    { value: profiles.length, label: '+ Add New Profile', url: '' },
   ];
 
   const copyToClipboard = () => {
@@ -213,8 +238,9 @@ export default function QRCodeGenerator() {
         <button
           onClick={() => {
             const updatedProfiles = [...profiles];
-            updatedProfiles[currentProfile] = { baseUrl: '', params: [] };
+            updatedProfiles[currentProfile] = { title: '', baseUrl: '', params: [] };
             setProfiles(updatedProfiles);
+            setTitle('');
             setBaseUrl('');
             setParams([]);
           }}
@@ -230,12 +256,14 @@ export default function QRCodeGenerator() {
           onChange={(option) => {
             const index = option?.value || 0;
             if (index === profiles.length) {
-              setProfiles([...profiles, { baseUrl: '', params: [] }]);
+              setProfiles([...profiles, { title: '', baseUrl: '', params: [] }]);
               setCurrentProfile(profiles.length);
+              setTitle('');
               setBaseUrl('');
               setParams([]);
             } else {
               setCurrentProfile(index);
+              setTitle(profiles[index].title || '');
               setBaseUrl(profiles[index].baseUrl);
               setParams(profiles[index].params);
             }
@@ -299,6 +327,18 @@ export default function QRCodeGenerator() {
         />
       </div>
 
+      {/* Add title input with centered label */}
+      <div className="w-96 mb-2">
+        <label className="block text-center mb-1 font-medium">Profile Title</label>
+        <input
+          type="text"
+          placeholder="Profile Title (optional)"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="p-2 border rounded dark:bg-gray-800 w-full"
+        />
+      </div>
+
       <textarea
         placeholder="Base URL"
         value={baseUrl}
@@ -335,6 +375,7 @@ export default function QRCodeGenerator() {
       {baseUrl && baseUrl.trim() !== '' && (
         <div className="mt-4 flex flex-col items-center">
           <QRCodeSVG value={generateUrl()} size={256} />
+          {title && <h2 className="mt-2 text-xl font-semibold">{title}</h2>}
           <div className="mt-2 flex items-center">
             <p className="text-sm break-all max-w-[600px] text-center">
               {baseUrl}
